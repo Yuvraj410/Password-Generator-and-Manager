@@ -5,7 +5,7 @@ numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
 
 #Password Dictionary
-PDict = {}
+password_dict = {}
 
 #PasswordGenerator
 import random
@@ -30,15 +30,15 @@ class PasswordGenerator:
 
         #adding password to dict
         # check if key not in dict
-        if site not in PDict:
-            PDict[site] = rpassword
+        if site not in password_dict:
+            password_dict[site] = rpassword
 
         # OUTPUT
         print("\n")
         print(f'The generated password is : {rpassword}')
 
     def load_password_dict(self):
-        print(PDict)
+        print(password_dict)
 
 #Password Manager
 from cryptography.fernet import  Fernet
@@ -48,7 +48,8 @@ class PasswordManager:
     def __init__(self):
         self.key = None
         self.password_file = None
-        self.password_dict = {}
+        global password_dict
+        password_dict = {}
 
     def create_key(self, path):
         self.key = Fernet.generate_key()
@@ -72,10 +73,10 @@ class PasswordManager:
         with open(path, 'r') as f:
             for line in f:
                 site, encrypted = line.split(":")
-                self.password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
+                password_dict[site] = Fernet(self.key).decrypt(encrypted.encode()).decode()
 
     def add_password(self, site,password):
-        self.password_dict[site] = password
+        password_dict[site] = password
 
         if self.password_file is not None:
             with open(self.password_file, 'a+') as f:
@@ -83,12 +84,11 @@ class PasswordManager:
                 f.write(site + ":" + encrypted.decode() + "\n")
 
     def get_password(self, site):
-        return self.password_dict[site]
+        return password_dict[site]
 
 #main function
 print("Welcome to the Python Password Generator!")
 
-password = PDict
 pg = PasswordGenerator()
 pm = PasswordManager()
 
@@ -105,37 +105,37 @@ print("""What do you want to do?
     """)
 done = False
 
-    while not done:
-        choice=input("Enter your choice: ")
-        if choice == "1":
-            site = input("Enter Site's name: ")
-            nr_S_letters = int(input("How many SMALL letters would you like in your password?\n"))
-            nr_C_letters = int(input("How many CAPITAL letters would you like in your password?\n"))
-            nr_symbols = int(input("How many symbols would you like?\n"))
-            nr_numbers = int(input("How many numbers would you like?\n"))
-            pg.generate(site, nr_S_letters, nr_C_letters, nr_symbols, nr_numbers)
-        elif choice == "2":
-            path = input("Enter path")
-            pm.create_key(path)
-        elif choice == "3":
-            path = input("Enter path")
-            pm.load_key(path)
-        elif choice == "4":
-            path = input("Enter path")
-            pm.create_password_file(path, password)
-        elif choice == "5":
-            path = input("Enter path")
-            pm.load_password_file(path)
-        elif choice == "6":
-            site = input("Enter the site: ")
-            password = input("Enter the password: ")
-            pm.add_password(site, password)
-        elif choice == "7":
-            site = input("What site do you want: ")
-            print(f"Password for {site} is {pm.get_password(site)}")
-        elif choice == "8":
-            pg.load_password_dict()
-        elif choice == "9":
-            done = True
-        else:
-            print("Invalid choice!!")
+while not done:
+    choice=input("Enter your choice: ")
+    if choice == "1":
+        site = input("Enter Site's name: ")
+        nr_S_letters = int(input("How many SMALL letters would you like in your password?\n"))
+        nr_C_letters = int(input("How many CAPITAL letters would you like in your password?\n"))
+        nr_symbols = int(input("How many symbols would you like?\n"))
+        nr_numbers = int(input("How many numbers would you like?\n"))
+        pg.generate(site, nr_S_letters, nr_C_letters, nr_symbols, nr_numbers)
+    elif choice == "2":
+        path = input("Enter path: ")
+        pm.create_key(path)
+    elif choice == "3":
+        path = input("Enter path: ")
+        pm.load_key(path)
+    elif choice == "4":
+        path = input("Enter path: ")
+        pm.create_password_file(path, password_dict)
+    elif choice == "5":
+        path = input("Enter path: ")
+        pm.load_password_file(path)
+    elif choice == "6":
+        site = input("Enter the site: ")
+        password = input("Enter the password: ")
+        pm.add_password(site, password)
+    elif choice == "7":
+        site = input("What site do you want: ")
+        print(f"Password for {site} is {pm.get_password(site)}")
+    elif choice == "8":
+        pg.load_password_dict()
+    elif choice == "9":
+        done = True
+    else:
+        print("Invalid choice!!")
