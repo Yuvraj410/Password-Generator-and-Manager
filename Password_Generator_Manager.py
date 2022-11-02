@@ -86,14 +86,13 @@ class PasswordManager:
         return self.password_dict[site]
 
 #main function
-def main():
-    print("Welcome to the Python Password Generator!")
+print("Welcome to the Python Password Generator!")
 
-    password = PDict
-    pg = PasswordGenerator()
-    pm = PasswordManager()
+password = PDict
+pg = PasswordGenerator()
+pm = PasswordManager()
 
-    print("""What do you want to do?
+print("""What do you want to do?
     (1) Create a new random password and add it to the Password Dictionary
     (2) Create a new key 
     (3) Load an existing key
@@ -104,7 +103,7 @@ def main():
     (8) Get password dictionary
     (9) Quit
     """)
-    done = False
+done = False
 
     while not done:
         choice=input("Enter your choice: ")
