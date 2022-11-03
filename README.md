@@ -12,3 +12,7 @@ Instructions to run the project:
 iii) Specify the choice if you want to create a new password for a site and add it to the password dictionary.(choices 1 and 8)
 
 iv) OR if you want to add the password dictionary in the passwotd vault.(choices 2 to 7) 
+
+
+https://user-images.githubusercontent.com/73981120/199648723-c9208626-8eb1-43ac-bfd7-029432776dc4.mp4
+
