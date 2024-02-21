@@ -9,6 +9,7 @@ password_dict = {}
 
 #PasswordGenerator
 import random
+#test
 
 class PasswordGenerator:
     def generate(self, site, nr_S_letters, nr_C_letters, nr_symbols, nr_numbers):
